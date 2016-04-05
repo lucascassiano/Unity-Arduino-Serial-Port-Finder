@@ -160,7 +160,7 @@ In the case you only want to know if a port is connected and also responds to sp
 	private string FindPort(string handShake1 , string handShake2)
 ```
 
-##### Read Data
+##### Read Data From Serial
 As an extension of the *Arduino* class, the main connection class can implement the 
 ```java
 	protected override void OnReceiveData (string receivedData)
@@ -168,8 +168,12 @@ As an extension of the *Arduino* class, the main connection class can implement 
 		Debug.Log (receivedData);
 	}
 ```
+
+#### Write Data to Serial
+    Still TODO :(
+
 ### Version
->1.0
+>0.9
 
 ### Updates List
 * (Feb 2015) - Main Classes created for Arduino
