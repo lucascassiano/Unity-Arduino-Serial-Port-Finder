@@ -74,7 +74,6 @@ A good aproach is to extend the class **Arduino** (*this already extends a MonoB
 ```Csharp
 using UnityEngine;
 using System.Collections;
-
 public class Arduino_Connection : Arduino{
     void Start(){
         //Open Connection Here
