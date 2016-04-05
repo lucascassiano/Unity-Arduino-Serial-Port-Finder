@@ -18,9 +18,9 @@ Download the directory from this [Github Page](https://github.com/lucascassiano/
    - *keywords.txt*
 3. In your sketch's main code include the library, using:
 
-    ```c
+```c
     #include "SerialFinder.h"
-    ```
+```
     
 ### Unity Installation
 1. Copy the file **Arduino.cs** from *SerialFinder _ Unity* to your project *assets* folder. **That's all :)**
@@ -28,33 +28,33 @@ Download the directory from this [Github Page](https://github.com/lucascassiano/
 # Get Started
 ## Arduino
 - Create a *SerialFinder* variable that is global:
-- 
-    ```c
+
+```c
     #include "SerialFinder.h"
     
     SerialFinder finder;
-    ```
+```
     
 - The **Handshake Code** is defined in the *Constructor*, in this example it's *"CODE"* :
-- 
-    ```c
+
+```c
     void setup(){
     //Initialize a Serial Connection
         Serial.begin(9600);//this baudrate must match the defined at Unity's Plugin.
         
         finder = SerialFinder("CODE");
     }
-    ```
+```
     
 - Another way to initialize the *SerialFinder* is define an *Input Handshake* and an *Output Handshake*, this way the Arduino will only respond to specific Unity Programs: 
-- 
-    ```c
+
+```c
         finder = SerialFinder("Input", "Output");
-    ```
+```
     
 - Inside the *loop* method we will respond for the first Handshake request, calling the method **findMe()**:
-- 
-    ```c
+
+```c
     void loop(){
         if(!finder.findMe()){
             return; //will block the loop in this point, until receive a proper handshake
@@ -62,11 +62,11 @@ Download the directory from this [Github Page](https://github.com/lucascassiano/
         //your usual code goes here.
         Serial.println("Hello Unity");
     }
-    ```
+```
     
 - Final Code:
 - 
-    ```c
+```c
     #include "SerialFinder.h"
     
     SerialFinder finder;
@@ -82,7 +82,7 @@ Download the directory from this [Github Page](https://github.com/lucascassiano/
       }
       Serial.println("Hello Unity");
     }
-    ```
+```
     
 ## Unity
 A good aproach is to extend the class **Arduino** (*this already extends a MonoBehavior*):
@@ -105,47 +105,47 @@ public class Arduino_Connection : Arduino{
 The Unity Plugin provides few ways to open a connection:
 1. **Simple Connection**: The first one is the most simple, where you don't really defines a HandShake. Instead, it opens a direct Serial Connetion and Handles the Thread for input/output data:
 
-    ```java
+```java
     void setup(){
         Open("COM3"); //9600 bauds *default* 
     }
-    ```
+```
     
     1.1. If you want to use a non-default baudrate (e.g. 115200) you can open this way:
     
-    ```java
+```java
     Open(string portName, int baudRate)
-    ````
+```
     
     ex.:
     
-    ```java
+```java
     Open("COM3", 115200);
-    ```
+```
     
 2. **Single Handshake**: this way Unity will send a *default handshake* to arduino and what to a set response:
 
-    ```java
+```java
     public bool Open(string handShake, bool find)
-    ```
+```
     
     A good example is to give "names" to Arduino Boards, so you can specifiy wich device you want to connect, just like connect to a robot:
     
-    ```java
+```java
     Open("Robot_0", true);
-    ```
+```
     
 3. **Double Handshake**: this way Unity sends a code to the Arduino and waits a specific response.
 
-    ```java
+```java
     public bool Open(string handShake1, string handShake2)
-    ```
+```
     
     ex.:
     
-    ```java
+```java
     Open("Device_0", "Game_1")
-    ```
+```
 
 ##### Discovery Ports
 In the case you only want to know if a port is connected and also responds to specified handshaks use one of the methods bellow, both will return "COM#" where *#* is the Port Number, or *null* if there is no device connected:
@@ -153,11 +153,11 @@ In the case you only want to know if a port is connected and also responds to sp
 1. *Single Handshake*:
 
 ```java
-private string FindPort(string handShake)
+	private string FindPort(string handShake)
 ```
 2. *Double Handshake*:
 ```java
-private string FindPort(string handShake1 , string handShake2)
+	private string FindPort(string handShake1 , string handShake2)
 ```
 
 ##### Read Data
