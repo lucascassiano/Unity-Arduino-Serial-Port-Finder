@@ -15,7 +15,7 @@ Download the directory from this [Github Page](https://github.com/lucascassiano/
    - *keywords.txt*
 3. In your sketch's main code include the library, using:
 
-    ```C
+    ```c
     #include "SerialFinder.h"
     ```
     
@@ -26,7 +26,7 @@ Download the directory from this [Github Page](https://github.com/lucascassiano/
 ## Arduino
 - Create a *SerialFinder* variable that is global:
 - 
-    ```C
+    ```c
     #include "SerialFinder.h"
     
     SerialFinder finder;
@@ -34,7 +34,7 @@ Download the directory from this [Github Page](https://github.com/lucascassiano/
     
 - The **Handshake Code** is defined in the *Constructor*, in this example it's *"CODE"* :
 - 
-    ```C
+    ```c
     void setup(){
     //Initialize a Serial Connection
         Serial.begin(9600);//this baudrate must match the defined at Unity's Plugin.
@@ -45,13 +45,13 @@ Download the directory from this [Github Page](https://github.com/lucascassiano/
     
 - Another way to initialize the *SerialFinder* is define an *Input Handshake* and an *Output Handshake*, this way the Arduino will only respond to specific Unity Programs: 
 - 
-    ```C
+    ```c
         finder = SerialFinder("Input", "Output");
     ```
     
 - Inside the *loop* method we will respond for the first Handshake request, calling the method **findMe()**:
 - 
-    ```C
+    ```c
     void loop(){
         if(!finder.findMe()){
             return; //will block the loop in this point, until receive a proper handshake
@@ -63,7 +63,7 @@ Download the directory from this [Github Page](https://github.com/lucascassiano/
     
 - Final Code:
 - 
-    ```C
+    ```c
     #include "SerialFinder.h"
     
     SerialFinder finder;
@@ -84,7 +84,7 @@ Download the directory from this [Github Page](https://github.com/lucascassiano/
 ## Unity
 A good aproach is to extend the class **Arduino** (*this already extends a MonoBehavior*):
 
-```Csharp
+```java
 using UnityEngine;
 using System.Collections;
 public class Arduino_Connection : Arduino{
@@ -102,7 +102,7 @@ public class Arduino_Connection : Arduino{
 The Unity Plugin provides few ways to open a connection:
 1. **Simple Connection**: The first one is the most simple, where you don't really defines a HandShake. Instead, it opens a direct Serial Connetion and Handles the Thread for input/output data:
 
-    ```Csharp
+    ```java
     void setup(){
         Open("COM3"); //9600 bauds *default* 
     }
@@ -110,31 +110,31 @@ The Unity Plugin provides few ways to open a connection:
     
     1.1. If you want to use a non-default baudrate (e.g. 115200) you can open this way:
     
-    ```CSharp
+    ```java
     Open(string portName, int baudRate)
     ````
     
     ex.:
     
-    ```CSharp
+    ```java
     Open("COM3", 115200);
     ```
     
 2. **Single Handshake**: this way Unity will send a *default handshake* to arduino and what to a set response:
 
-    ```CSharp
+    ```java
     public bool Open(string handShake, bool find)
     ```
     
     A good example is to give "names" to Arduino Boards, so you can specifiy wich device you want to connect, just like connect to a robot:
     
-    ```Csharp
+    ```java
     Open("Mr.Robot", true);
     ```
     
 3. **Double Handshake**: this way Unity sends a code to the Arduino and waits a specific response.
 
-    ```Csharp
+    ```java
     here
     ```
     
