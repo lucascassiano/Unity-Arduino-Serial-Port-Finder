@@ -2,16 +2,59 @@ Unity Android Serial Finder
 =================
 A simple API designed to simplify the communication between Unity 3D and Arduino Compatible Boards. 
 
-<p align="center">
-  <img src="http://s9.postimg.org/ayfzj1ju7/image.jpg" />
-</p>
-
-## Installation
+The basis of this API is that both Arduino and Unity projects share a **Handshake** code, it is basically a 
+# Installation
 Download the directory from this [Github Page](https://github.com/lucascassiano/Unity-Arduino-Serial-Port-Finder/) and follow the steps on bellow (for each Arduino and Unity 3D).
 
 
-#### Arduino Setup 
+### Arduino Installation
+1. Copy the files inside the folder **SerialFinder _ Arduino** to your Arduino Code's Folder, for example called "mySketch".
+2. Then inside your "/mySketch/" directory you must have the following files:
+   - *SerialFinder.cpp*
+   - *SerialFinder.h*
+   - *keywords.txt*
+3. In your sketch's main code include the library, using:
+    ```C++ 
+    #include "SerialFinder.h"
+    ```
+    
+### Unity Installation
+1. Copy the file **Arduino.cs** from *SerialFinder _ Unity* to your project *assets* folder. **That's all :)**
 
+# Get Started
+## Arduino
+- Create a *SerialFinder* variable that is global:
+    ```C++
+    #include "SerialFinder.h"
+    
+    SerialFinder finder;
+    ```
+- In order to initialize 
+    *mySketch.ino*
+    ```C++
+    #include "SerialFinder.h"
+    
+    SerialFinder finder;
+    
+    void setup(){
+      Serial.begin(9600);
+      //Protocol will receive from unity, what will send for Unity
+      //You can change both Protocols, but be sure to change both on Unity as well
+      //finder = SerialFinder("hey arduino","whats up unity");
+      finder = SerialFinder("JAN");
+      //You can implement more protocols under this line
+      //SerialFinder will write directly into your serial connection
+    }
+    
+    void loop(){
+      //Will yield until connection be stabilshed
+      if(!finder.findMe()){
+        return;
+      }
+      // Your code here
+      Serial.println("Hello Unity");
+    }
+    ```
 
 ### Version
 >1.0
