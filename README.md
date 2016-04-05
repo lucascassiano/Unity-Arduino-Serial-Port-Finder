@@ -2,7 +2,10 @@ Unity Android Serial Finder
 =================
 A simple API designed to simplify the communication between Unity 3D and Arduino Compatible Boards. 
 
-The basis of this API is that both Arduino and Unity projects share a **Handshake** code, it is basically a 
+The basis of this API is that both Arduino and Unity projects share a **Handshake** code, it is a simple way to connect to Arduino Devices without knowing previously the Serial Port (e.g. "COM3"). It can also be used to give different "names" per Arduino Board.
+
+The Library also handles a thread for continous reading/writing from the SerialPort (in Unity Net 2.0).
+
 # Installation
 Download the directory from this [Github Page](https://github.com/lucascassiano/Unity-Arduino-Serial-Port-Finder/) and follow the steps on bellow (for each Arduino and Unity 3D).
 
@@ -129,15 +132,42 @@ The Unity Plugin provides few ways to open a connection:
     A good example is to give "names" to Arduino Boards, so you can specifiy wich device you want to connect, just like connect to a robot:
     
     ```java
-    Open("Mr.Robot", true);
+    Open("Robot_0", true);
     ```
     
 3. **Double Handshake**: this way Unity sends a code to the Arduino and waits a specific response.
 
     ```java
-    here
+    public bool Open(string handShake1, string handShake2)
     ```
     
+    ex.:
+    
+    ```java
+    Open("Device_0", "Game_1")
+    ```
+
+##### Discovery Ports
+In the case you only want to know if a port is connected and also responds to specified handshaks use one of the methods bellow, both will return "COM#" where *#* is the Port Number, or *null* if there is no device connected:
+
+1. *Single Handshake*:
+
+```java
+private string FindPort(string handShake)
+```
+2. *Double Handshake*:
+```java
+private string FindPort(string handShake1 , string handShake2)
+```
+
+##### Read Data
+As an extension of the *Arduino* class, the main connection class can implement the 
+```java
+	protected override void OnReceiveData (string receivedData)
+	{
+		Debug.Log (receivedData);
+	}
+```
 ### Version
 >1.0
 
