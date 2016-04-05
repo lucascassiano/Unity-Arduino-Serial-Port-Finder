@@ -49,7 +49,7 @@ Download the directory from this [Github Page](https://github.com/lucascassiano/
 - Another way to initialize the *SerialFinder* is define an *Input Handshake* and an *Output Handshake*, this way the Arduino will only respond to specific Unity Programs: 
 
 ```c
-        finder = SerialFinder("Input", "Output");
+    finder = SerialFinder("Input", "Output");
 ```
     
 - Inside the *loop* method we will respond for the first Handshake request, calling the method **findMe()**:
@@ -117,7 +117,7 @@ The Unity Plugin provides few ways to open a connection:
     Open(string portName, int baudRate)
 ```
     
-    ex.:
+ex.:
     
 ```java
     Open("COM3", 115200);
@@ -141,7 +141,7 @@ The Unity Plugin provides few ways to open a connection:
     public bool Open(string handShake1, string handShake2)
 ```
     
-    ex.:
+ex.:
     
 ```java
     Open("Device_0", "Game_1")
@@ -170,7 +170,7 @@ As an extension of the *Arduino* class, the main connection class can implement 
 ```
 
 #### Write Data to Serial
-    Still TODO :(
+>**Still TODO :(**
 
 ### Version
 >0.9
@@ -180,6 +180,7 @@ As an extension of the *Arduino* class, the main connection class can implement 
 * (April 2016) - Implementation of simple connection Method
 
 ### TODO List
+* Implement **Write** Method on Unity - Arduino.cs
 * Test on Linux OS
 * Test on Mac OS
 
