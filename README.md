@@ -29,39 +29,100 @@ Download the directory from this [Github Page](https://github.com/lucascassiano/
     
     SerialFinder finder;
     ```
-- In order to initialize 
-    *mySketch.ino*
+- The **Handshake Code** is defined in the *Constructor*, in this example it's *"CODE"* :
+    ```C++
+    void setup(){
+    //Initialize a Serial Connection
+        Serial.begin(9600);//this baudrate must match the defined at Unity's Plugin.
+        
+        finder = SerialFinder("CODE");
+    }
+- Another way to initialize the *SerialFinder* is define an *Input Handshake* and an *Output Handshake*, this way the Arduino will only respond to specific Unity Programs: 
+    ```C++
+        finder = SerialFinder("Input", "Output");
+    ```
+- Inside the *loop* method we will respond for the first Handshake request, calling the method **findMe()**:
+    ```C++
+    void loop(){
+        if(!finder.findMe()){
+            return; //will block the loop in this point, until receive a proper handshake
+        }
+        //your usual code goes here.
+        Serial.println("Hello Unity");
+    }
+    ```
+- Final Code:
     ```C++
     #include "SerialFinder.h"
     
     SerialFinder finder;
-    
+
     void setup(){
       Serial.begin(9600);
-      //Protocol will receive from unity, what will send for Unity
-      //You can change both Protocols, but be sure to change both on Unity as well
-      //finder = SerialFinder("hey arduino","whats up unity");
-      finder = SerialFinder("JAN");
-      //You can implement more protocols under this line
-      //SerialFinder will write directly into your serial connection
+      finder = SerialFinder("CODE");
     }
     
     void loop(){
-      //Will yield until connection be stabilshed
       if(!finder.findMe()){
         return;
       }
-      // Your code here
       Serial.println("Hello Unity");
     }
     ```
+## Unity
+A good aproach is to extend the class **Arduino** (*this already extends a MonoBehavior*):
+```Csharp
+using UnityEngine;
+using System.Collections;
 
+public class Arduino_Connection : Arduino{
+    void Start(){
+        //Open Connection Here
+    }
+    
+    void Update(){
+    
+    }
+}
+```
+##### Open Connection
+The Unity Plugin provides few ways to open a connection:
+1. **Simple Connection**: The first one is the most simple, where you don't really defines a HandShake. Instead, it opens a direct Serial Connetion and Handles the Thread for input/output data:
+    ```Csharp
+    void setup(){
+        Open("COM3"); //9600 bauds *default* 
+    }
+    ```
+    1.1. If you want to use a non-default baudrate (e.g. 115200) you can open this way:
+    ```CSharp
+    Open(string portName, int baudRate)
+    ````
+    ex.:
+    ```CSharp
+    Open("COM3", 115200);
+    ```
+    
+2. **Single Handshake**: this way Unity will send a *default handshake* to arduino and what to a set response:
+    ```CSharp
+    public bool Open(string handShake, bool find)
+    ```
+    A good example is to give "names" to Arduino Boards, so you can specifiy wich device you want to connect, just like connect to a robot:
+    ```Csharp
+    Open("Mr.Robot", true);
+    ```
+3. **Double Handshake**: this way Unity sends a code to the Arduino and waits a specific response.
+    ```Csharp
+    ```
 ### Version
 >1.0
 
 ### Updates List
 * (Feb 2015) - Main Classes created for Arduino
 * (April 2016) - Implementation of simple connection Method
+
+### TODO List
+* Test on Linux OS
+* Test on Mac OS
 
 ### License
 ----
